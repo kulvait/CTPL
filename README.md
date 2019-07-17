@@ -1,6 +1,6 @@
-# CTPL
+# FTPL (Fork of CTPL Thread pool library)
 
-Modern and efficient C++ Thread Pool Library (VK fork)
+Thread Pool Library
 
 
 ## Reasons to fork
@@ -29,7 +29,6 @@ Features:
 - get returned value of any type with standard c++ futures
 - get fired exceptions with standard c++ futures
 - use for any purpose under Apache license
-- two variants, one depends on Boost Lockfree Queue library, http://boost.org, which is a header only library
 
 
 Sample usage
