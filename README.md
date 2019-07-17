@@ -1,8 +1,17 @@
-CTPL
-====
+# CTPL
 
-Modern and efficient C++ Thread Pool Library
+Modern and efficient C++ Thread Pool Library (VK fork)
 
+
+## Reasons to fork
+
+* The library was not maintained for some time
+* Need simple library for thread pooling
+* When I want to restart thread pool after the stop operation, there is no function for that and init function is private
+* Want to target that only for STL not maintaining both boost and STL version, boost version will be removed
+* Target architecture for testing will be GCC 6/8 on Linux
+
+## Description
 
 A thread pool is a programming pattern for parallel execution of jobs, http://en.wikipedia.org/wiki/Thread_pool_pattern.
 
@@ -25,35 +34,40 @@ Features:
 
 Sample usage
 
-<code>void first(int id) {
-    std::cout << "hello from " << id << '\n';
-}</code>
 
-<code>&#32;&#32;struct Second {
+
+```c++
+void first(int id) {
+    std::cout << "hello from " << id << '\n';
+};
+
+struct Second {
     void operator()(int id) const {
         std::cout << "hello from " << id << '\n';
     }
 } second;
 
-<code>void third(int id, const std::string & additional_param) {}</code>
 
+void third(int id, const std::string & additional_param) {}
 
-<code>int main () {</code>
+int main () {
 
-<code>&#32;&#32;&#32;&#32;ctpl::thread_pool p(2 /* two threads in the pool */);</code>
+    ctpl::thread_pool p(2 /* two threads in the pool */);
 
-<code>&#32;&#32;&#32;&#32;p.push(first);  // function</code>
+    p.push(first);  // function
 
-<code>&#32;&#32;&#32;&#32;p.push(third, "additional_param");</code>
+    p.push(third, "additional_param");
 
-<code>&#32;&#32;&#32;&#32;p.push( &#91;&#93; (int id){
-  std::cout << "hello from " << id << '\n';
-});  // lambda</code>
+    p.push( (int id)
+    {
+        std::cout << "hello from " << id << '\n';
+    });  // lambda
 
-<code>&#32;&#32;&#32;&#32;p.push(std::ref(second));  // functor, reference</code>
+    p.push(std::ref(second));  // functor, reference
 
-<code>&#32;&#32;&#32;&#32;p.push(const_cast&#60;const Second &&#62;(second));  // functor, copy ctor</code>
+    p.push(const_cast const Second (second));  // functor, copy ctor
 
-<code>&#32;&#32;&#32;&#32;p.push(std::move(second));  // functor, move ctor</code>
+    p.push(std::move(second));  // functor, move ctor
 
-<code>}</code>
+}
+```
