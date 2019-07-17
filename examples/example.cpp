@@ -1,4 +1,4 @@
-#include <ctpl.h>
+#include "ftpl.h"
 #include <iostream>
 #include <string>
 
@@ -30,7 +30,7 @@ void ugu(int id, Third & t) {
 }
 
 int main(int argc, char **argv) {
-    ctpl::thread_pool p(2 /* two threads in the pool */);
+    ftpl::thread_pool p(2 /* two threads in the pool */);
 
     std::future<void> qw = p.push(std::ref(first));  // function
     p.push(first);  // function
@@ -111,7 +111,7 @@ int main(int argc, char **argv) {
     }
 
     // get thread 0
-    auto & th = p.get_thread(0);
+   // auto & th = p.get_thread(0);
 
     return 0;
 }
