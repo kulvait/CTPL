@@ -45,12 +45,23 @@ include_directories(${CMAKE_SOURCE_DIR}/submodules/FTPL)
 
 #include "ftpl.h"
 
-void first(int id) {
+uint32_t threads = 10;
+
+template <typename T>
+void zeroth(int ftpl_id, T a, T b)
+{
+	//Do something with a and b
+}
+
+void first(int id) 
+{
     std::cout << "hello from " << id << '\n';
 };
 
-struct Second {
-    void operator()(int id) const {
+struct Second 
+{
+    void operator()(int id) const 
+	{
         std::cout << "hello from " << id << '\n';
     }
 } second;
@@ -58,24 +69,44 @@ struct Second {
 
 void third(int id, const std::string & additional_param) {}
 
-int main () {
-
-    ftpl::thread_pool p(2 /* two threads in the pool */);
-
-    p.push(first);  // function
-
-    p.push(third, "additional_param");
-
-    p.push( (int id)
+int main () 
+{
+    ftpl::thread_pool* threadpool = nullptr;
+    if(threads != 0)
     {
-        std::cout << "hello from " << id << '\n';
-    });  // lambda
+        threadpool = new ftpl::thread_pool(threads);
+    }
+    if(threadpool != nullptr)
+    {
+    	threadpool->push(first);  // function
 
-    p.push(std::ref(second));  // functor, reference
+    	threadpool->push(third, "additional_param");
+		
+		//Make barrier here
+        threadpool->stop(true);
+        threadpool->init();
 
-    p.push(const_cast const Second (second));  // functor, copy ctor
+	    threadpool->push( (int id)
+    	{
+        	std::cout << "hello from " << id << '\n';
+    	});  // lambda
 
-    p.push(std::move(second));  // functor, move ctor
+    	threadpool->push(std::ref(second));  // functor, reference
 
+    	threadpool->push(const_cast const Second (second));  // functor, copy ctor
+
+    	threadpool->push(std::move(second));  // functor, move ctor
+        threadpool->push(zeroth<float>, 1.0f, 0.0f);
+    } else
+    {
+		int dummy_ftpl_id=0;
+		zeroth<float>(0, 1.0f, 0.0f);
+    }
+    if(threadpool != nullptr)
+    {
+        threadpool->stop(true);
+        delete threadpool;
+    }
 }
+
 ```
