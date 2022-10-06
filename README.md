@@ -33,9 +33,13 @@ Features:
 
 # Sample usage
 
-* Put the FTPL directory into your include directories
+* Put the FTPL directory into your include directories, example cmake integration
 
+```cmake
+include_directories(${CMAKE_SOURCE_DIR}/submodules/FTPL)
+```
 
+* Write your code
 
 ```c++
 
@@ -56,7 +60,7 @@ void third(int id, const std::string & additional_param) {}
 
 int main () {
 
-    ctpl::thread_pool p(2 /* two threads in the pool */);
+    ftpl::thread_pool p(2 /* two threads in the pool */);
 
     p.push(first);  // function
 
