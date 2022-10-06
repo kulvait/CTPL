@@ -99,8 +99,9 @@ int main ()
         threadpool->push(zeroth<float>, 1.0f, 0.0f);
     } else
     {
+		//This is contraintuitive
 		int dummy_ftpl_id=0;
-		zeroth<float>(0, 1.0f, 0.0f);
+		zeroth<float>(dummy_ftpl_id, 1.0f, 0.0f);
     }
     if(threadpool != nullptr)
     {
