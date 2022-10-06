@@ -1,6 +1,6 @@
 # FTPL (Fork of CTPL Thread pool library)
 
-Thread Pool Library
+Forked version of [CTPL Thread pool library](https://github.com/vit-vit/CTPL)
 
 
 ## Reasons to fork
@@ -27,15 +27,20 @@ Features:
 - collable objects with variadic number of parameters plus index of the thread running the object
 - automatic template argument deduction
 - get returned value of any type with standard c++ futures
-- get fired exceptions with standard c++ futures
+- get fired exceptions with standard C++ futures
 - use for any purpose under Apache license
 
 
-Sample usage
+# Sample usage
+
+* Put the FTPL directory into your include directories
 
 
 
 ```c++
+
+#include "ftpl.h"
+
 void first(int id) {
     std::cout << "hello from " << id << '\n';
 };
